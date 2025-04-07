@@ -7,31 +7,71 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <script src="assets/js/script.js" defer></script>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands@3.0.3/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@4.0.1/dist/aframe-physics-system.min.js"></script>
   </head>
   <body>
-    <a-scene vr-mode-ui="enabled: true" embedded>
-      <!-- Movement OQ2 Controller Movement -->
-      <a-entity id="rig" movement-controls position="0 1.6 0">
-        <a-entity camera look-controls wasd-controls>
+    <!-- <div> -->
+    <!-- <a-scene vr-mode-ui="enabled: true" embedded> -->
+    <!-- Movement OQ2 Controller Movement -->
+    <!-- <a-entity id="rig" movement-controls position="0 1.6 0">
+          <a-entity camera look-controls wasd-controls>
+            <a-cursor color="black"></a-cursor>
+          </a-entity>
+          <a-entity hand-controls="hand: left"></a-entity>
+          <a-entity hand-controls="hand: right"></a-entity>
+        </a-entity>
+        <a-entity camera wasd-controls="acceleration: 30" look-controls position="0 1.6 0">
           <a-cursor color="black"></a-cursor>
         </a-entity>
+        <a-text position="-1 2.5 -5" color="black" value="Hej, Bo!"></a-text>
+        <a-triangle position="-1 2.5 -2" rotation="0 90 0" vertex-c="1 -1 0" color="#292424"></a-triangle>
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box> -->
+    <!-- <a-sphere id="head" position="2.75 6 -5" radius="1" color="purple"></a-sphere> -->
+    <!-- <a-sphere class="ball" position="3.5 1.25 -5" radius="1.25" color="blue"></a-sphere>
+        <a-sphere class="ball" position="2 1.25 -5" radius="1.25" color="blue"></a-sphere>
+        <a-cylinder id="shaft" position="2.75 3.75 -5" radius="0.75" height="5.5" color="#e0ac69"></a-cylinder>
+        <a-entity geometry="primitive: sphere; radius: 1.25; phiStart: 0; phiLength: 180" position="2.75 5.5 -5" rotation="270 0 0" material="color: purple; side: double"></a-entity>
+        <a-entity geometry="primitive: circle; radius: 1.25" position="2.75 5.5 -5" rotation="-90 0 0" material="color: purple; side: double"></a-entity>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="25" color="#7BC8A4"></a-plane>
+        <a-sky color="#ECECEC"></a-sky>
+      </a-scene>
+    </div> -->
 
-        <a-entity hand-controls="hand: left"></a-entity>
-        <a-entity hand-controls="hand: right"></a-entity>
+    <a-scene physics="gravity: -9.8" vr-mode-ui="enabled: true" embedded>
+      <!-- Player rig for movement + teleport -->
+      <a-entity id="rig" movement-controls position="0 1.6 0">
+        <a-entity camera look-controls wasd-controls>
+          <a-cursor></a-cursor>
+        </a-entity>
       </a-entity>
-      <a-entity camera wasd-controls="acceleration: 30" look-controls position="0 1.6 0">
-        <a-cursor color="black"></a-cursor>
-      </a-entity>
+
+      <!-- Left hand controller with teleport & super-hands -->
+      <a-entity hand-controls="hand: left" teleport-controls="cameraRig: #rig; button: trigger; collisionEntities: .teleportable; curveShootingSpeed: 8" super-hands></a-entity>
+
+      <!-- Right hand controller with grab + super-hands -->
+      <a-entity hand-controls="hand: right" super-hands></a-entity>
+
+      <!-- Objects -->
       <a-text position="-1 2.5 -5" color="black" value="Hej, Bo!"></a-text>
       <a-triangle position="-1 2.5 -2" rotation="0 90 0" vertex-c="1 -1 0" color="#292424"></a-triangle>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <!-- <a-sphere id="head" position="2.75 6 -5" radius="1" color="purple"></a-sphere> -->
-      <a-sphere class="ball" position="3.5 1.25 -5" radius="1.25" color="blue"></a-sphere>
-      <a-sphere class="ball" position="2 1.25 -5" radius="1.25" color="blue"></a-sphere>
-      <a-cylinder id="shaft" position="2.75 3.75 -5" radius="0.75" height="5.5" color="#e0ac69"></a-cylinder>
-      <a-entity geometry="primitive: sphere; radius: 1.25; phiStart: 0; phiLength: 180" position="2.75 5.5 -5" rotation="270 0 0" material="color: purple; side: double"></a-entity>
-      <a-entity geometry="primitive: circle; radius: 1.25" position="2.75 5.5 -5" rotation="-90 0 0" material="color: purple; side: double"></a-entity>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="25" color="#7BC8A4"></a-plane>
+
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" dynamic-body class="grabbable" grabbable></a-box>
+
+      <a-sphere class="ball" position="3.5 1.25 -5" radius="1.25" color="blue" dynamic-body class="grabbable" grabbable></a-sphere>
+
+      <a-sphere class="ball" position="2 1.25 -5" radius="1.25" color="blue" dynamic-body class="grabbable" grabbable></a-sphere>
+
+      <a-cylinder id="shaft" position="2.75 3.75 -5" radius="0.75" height="5.5" color="#e0ac69" static-body></a-cylinder>
+
+      <a-entity geometry="primitive: sphere; radius: 1.25; phiStart: 0; phiLength: 180" position="2.75 5.5 -5" rotation="270 0 0" material="color: purple; side: double" static-body></a-entity>
+
+      <a-entity geometry="primitive: circle; radius: 1.25" position="2.75 5.5 -5" rotation="-90 0 0" material="color: purple; side: double" static-body></a-entity>
+
+      <!-- Teleportable ground -->
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="25" color="#7BC8A4" class="teleportable" static-body></a-plane>
+
       <a-sky color="#ECECEC"></a-sky>
     </a-scene>
   </body>
