@@ -1,0 +1,1 @@
+console.log('Weee! I am a JavaScript file!');

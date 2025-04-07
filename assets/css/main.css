@@ -1,0 +1,34 @@
+:root {
+    --primary-color: #333;
+    --secondary-color: #f4f4f4;
+    --background-color: #d3d3d3;
+    --border-color: #ccc;
+    --hover-color: #444;
+    --active-color: #222;
+    --focus-color: #444;
+    --button-color: #4CAF50;
+    --button-hover-color: #45a049;
+    --valid-color: green;
+    --invalid-color: red;
+}
+/* #region Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: var(--secondary-color);
+  color: black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+/* #endregion */
